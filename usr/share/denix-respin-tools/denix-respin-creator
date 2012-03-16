@@ -1,0 +1,239 @@
+#! /bin/bash
+
+[ -f /etc/denix-colors ] && . /etc/denix-colors
+
+show_help() {
+    $color_Yellow
+    echo "Usage: $0 [arguments]"
+    echo "	--help				- show help"
+    echo "	--os_tree_only			- Do not create ISO file, only the os tree"
+    echo "	--clear_cache			- Clear the cache directory before creating new respin"
+    echo
+    echo "report bugs to <denis.salmanovich@gmail.com>"
+    $color_Off
+}
+
+# Check if script runs under root
+#################################
+if ! [ "$(whoami)" = "root" ]; then
+    echo "You have to run me with root user priveleges!"
+    exit 1
+fi
+
+
+# Check if we have all needed packages in system
+################################################
+pk="pungi syslinux"
+for i in $pk; do
+    if ! rpm -q $i >/dev/null 2>&1; then
+	required_packages="$required_packages $i"
+    fi
+done
+
+if ! [ "$required_packages" = "" ]; then
+    echo "Some packages not found on your system. Trying to download and install..."
+    if ! yum -y install $required_packages; then
+	echo "Download failed! Check internet connection and try again!"
+	exit 1
+    else
+	echo "Installation success!"
+    fi
+fi
+
+
+# Check SELinux configuration
+#############################
+if [ -f /etc/selinux/config ]; then
+    . /etc/selinux/config
+    if ! [ "${SELINUX}" = "disabled" ]; then
+	$color_Red
+	echo "WARNING!"
+	echo "~~~~~~~~"
+	echo -n "The SELINUX has been set to ${SELINUX}. Do you want to disable it? (Y/n)?"; read USERINPUT
+	$color_Off
+	if [ "${USERINPUT}" = "" -o "${USERINPUT}" = "y" -o "${USERINPUT}" = "Y" ]; then
+	    sed -i 's/^SELINUX=.*$/SELINUX=disabled/g' /etc/selinux/config
+	    setenforce 0
+	else
+	    $color_BRed
+	    echo "You have to disable SELINUX!"
+	    echo "Exiting."
+	    $color_Off
+	    exit 1
+	fi
+    fi
+    . /etc/selinux/config
+    if [ "${SELINUX}" = "disabled" ]; then
+	chkconfig restorecond off >/dev/null 2>&1
+	chkconfig setroubleshoot off >/dev/null 2>&1
+    fi
+fi
+
+# Check the system version and arch
+###################################
+[ -f /etc/fedora-release ] && system_ver=`cat /etc/fedora-release | head -1 | awk '{print $3}'` && system_arch=$(uname -i)
+
+
+# Get the user arguments
+########################
+for i in $*; do
+    case $i in
+    	-h|--help)
+    	    show_help
+    	    exit 0
+    	    ;;
+	--os_tree_only)
+	    os_tree_only=yes
+	    ;;
+	--clear_cache)
+    	    clear_cache=yes
+	    ;;
+	--dest_ver=*)
+	    dest_ver=`echo $i | sed 's/[-a-zA-Z0-9_]*=//'`
+	    ;;
+    esac
+done
+
+
+# If dest version not specified - use the system version
+########################################################
+if [ "${dest_ver}" = "" ]; then
+    dest_ver=${system_ver}
+fi
+
+
+# Set system vars
+#################
+cache_dir="/var/cache/denix-respin/${dest_ver}"
+dest_dir="/srv/denix-${dest_ver}"
+
+
+# Clear the cache directory if needed
+#####################################
+if [ "${clear_cache}" = "yes" ]; then
+	rm -rf ${cache_dir}
+fi
+
+
+# Create cache directory
+########################
+install -d ${cache_dir}
+
+
+# Download files for compose
+############################
+case ${dest_ver} in
+    13|14|12)
+	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
+	links="${mirror}/isolinux/vmlinuz
+		${mirror}/isolinux/initrd.img
+		${mirror}/isolinux/memtest
+		${mirror}/.discinfo
+		${mirror}/images/install.img"
+	;;
+    15|16)
+	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
+	links="${mirror}/isolinux/vmlinuz
+		${mirror}/isolinux/initrd.img
+		${mirror}/isolinux/memtest
+		${mirror}/.discinfo"
+	;;
+    *)
+	echo "Unsupported version!"
+	exit 0
+	;;
+esac
+
+for link in $links; do
+    obj=`basename $link`
+    if ! [ -f ${cache_dir}/${obj} ]; then
+	if ! wget --directory-prefix=${cache_dir} --output-document=${cache_dir}/${obj} ${link}; then
+	    echo "Error"
+	    echo "Check your connection, or try again later"
+	    exit 1
+	fi
+    fi
+done
+
+
+# Download packages and create local repos for compose
+######################################################
+$color_Cyan
+rm -rf ${dest_dir}
+pungi -c /usr/share/denix-respin-tools/kickstart.d/dx${dest_ver}-${system_arch}.cfg \
+    --ver ${dest_ver} \
+    --cachedir=${cache_dir}/pungi \
+    --destdir=${dest_dir} \
+    --name DeniX \
+    --nosource \
+    --nodebuginfo \
+    -G -C
+$color_Off
+
+if [ $? -gt 1 ]; then
+    $color_BRed
+    echo "Error downloading packages from repositories!"
+    $color_Off
+    exit 1
+fi
+
+# Create isolinux directory
+###########################
+install -d ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+cp /usr/share/syslinux/isolinux.bin ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+cp /usr/share/syslinux/vesamenu.c32 ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+
+# Copy and edit kickstart file
+##############################
+cp /usr/share/denix-respin-tools/kickstart.d/dx${dest_ver}-${system_arch}.cfg ${dest_dir}/${dest_ver}/${system_arch}/os/ks.cfg
+sed -i 's/^repo --name/#repo --name/' ${dest_dir}/${dest_ver}/${system_arch}/os/ks.cfg
+
+# Copy splash & configuration file into isolinux directory
+##########################################################
+cp /usr/share/denix-respin-tools/isolinux/${dest_ver}/isolinux.cfg ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+cp /usr/share/denix-respin-tools/isolinux/${dest_ver}/splash.jpg ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+
+# Copy kernel images and diskinfo files
+#######################################
+cp ${cache_dir}/initrd.img ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+cp ${cache_dir}/vmlinuz ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+cp ${cache_dir}/memtest ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
+cp ${cache_dir}/.discinfo ${dest_dir}/${dest_ver}/${system_arch}/os
+
+case ${dest_ver} in
+    12|13|14)
+	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	cp ${cache_dir}/install.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	;;
+esac
+
+# Create directory for ISO
+##########################
+install -d ${dest_dir}/${dest_ver}/${system_arch}/iso
+
+# Create ISO file
+#################
+$color_Green
+mkisofs -r -l \
+	-o ${dest_dir}/${dest_ver}/${system_arch}/iso/denix-${dest_ver}-${system_arch}.iso \
+        -b isolinux/isolinux.bin \
+        -c isolinux/boot.cat \
+        -no-emul-boot \
+        -input-charset utf-8 \
+        -boot-load-size 4 \
+        -boot-info-table \
+        ${dest_dir}/${dest_ver}/${system_arch}/os
+
+if [ $? -gt 1 ]; then
+    $color_BRed
+    echo "Error creating ISO image!"
+    $color_Off
+    exit 1
+fi
+
+# Print success message :-)
+###########################
+echo
+$color_BGreen
+echo "ISO image successfully created: ${dest_dir}/${dest_ver}/${system_arch}/iso/denix-${dest_ver}-${system_arch}.iso"
+$color_Off
