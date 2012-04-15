@@ -1,6 +1,6 @@
 Name:		denix-respin-tools
 Version:	16.3
-Release:	49%{?dist}
+Release:	50%{?dist}
 Summary:	Respin scripts by -=DeN=-
 Group:		Scripts
 License:	GPL
