@@ -1,3 +1,4 @@
+17.04.2012 - Added support for Fedora 17 build (experemental and only i386 arch)
 15.04.2012 - Added package gcolor2
 02.04.2012 - Added packages gnupg, seahorse to f16 kickstart
 22.03.2012 - Added package php-mbstring to f16 kickstart

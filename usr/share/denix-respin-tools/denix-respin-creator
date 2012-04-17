@@ -151,6 +151,13 @@ case ${dest_ver} in
 		${mirror}/isolinux/memtest
 		${mirror}/.discinfo"
 	;;
+    17)
+	mirror="http://ftp.halifax.rwth-aachen.de/fedora/linux/releases/test/17-Beta/Fedora/i386/os"
+	links="${mirror}/isolinux/vmlinuz
+		${mirror}/isolinux/initrd.img
+		${mirror}/isolinux/memtest
+		${mirror}/.discinfo"
+	;;
     *)
 	echo "Unsupported version!"
 	exit 0
