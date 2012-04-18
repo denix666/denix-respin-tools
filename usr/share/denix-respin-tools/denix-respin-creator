@@ -21,6 +21,7 @@ show_help() {
     echo "	--help				- show help"
     echo "	--os_tree_only			- Do not create ISO file, only the os tree"
     echo "	--clear_cache			- Clear the cache directory before creating new respin"
+    echo "	--dest_ver=<12/13/14/15/16/17>	- Specify the version to build (experemental)"
     echo
     echo "report bugs to <denis.salmanovich@gmail.com>"
     $color_Off
@@ -143,6 +144,7 @@ case ${dest_ver} in
 		${mirror}/isolinux/memtest
 		${mirror}/.discinfo
 		${mirror}/images/install.img"
+	cd_label="DeniX-OS\x20${dest_ver}\x20${system_arch}"
 	;;
     15|16)
 	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
@@ -150,13 +152,16 @@ case ${dest_ver} in
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
 		${mirror}/.discinfo"
+	cd_label="DeniX-OS\x20${dest_ver}\x20${system_arch}"
 	;;
     17)
 	mirror="http://ftp.halifax.rwth-aachen.de/fedora/linux/releases/test/17-Beta/Fedora/i386/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
+		${mirror}/LiveOS/squashfs.img
 		${mirror}/.discinfo"
+	cd_label="Fedora\x2017-Beta\x20${system_arch}"
 	;;
     *)
 	echo "Unsupported version!"
@@ -225,6 +230,10 @@ case ${dest_ver} in
 	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	cp ${cache_dir}/install.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	;;
+    17)
+	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
+	cp ${cache_dir}/squashfs.img ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
+	;;
 esac
 
 # Create directory for ISO
@@ -240,7 +249,7 @@ mkisofs -r -l \
         -c isolinux/boot.cat \
         -no-emul-boot \
         -input-charset utf-8 \
-        -V 'DeniX-OS' \
+        -V ${cd_label} \
         -boot-load-size 4 \
         -boot-info-table \
         ${dest_dir}/${dest_ver}/${system_arch}/os
