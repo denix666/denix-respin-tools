@@ -240,6 +240,7 @@ mkisofs -r -l \
         -c isolinux/boot.cat \
         -no-emul-boot \
         -input-charset utf-8 \
+        -V 'DeniX-OS' \
         -boot-load-size 4 \
         -boot-info-table \
         ${dest_dir}/${dest_ver}/${system_arch}/os
