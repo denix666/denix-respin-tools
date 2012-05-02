@@ -36,5 +36,5 @@ $mkdir git-repos
 $cd git-repos
 $git clone https://github.com/denix666/denix-respin-tools.git
 $cd denix-respin-tools
-$./build_denix-respin-tools
+$./build_denix-respin-tools.sh
 ```
