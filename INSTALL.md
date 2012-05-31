@@ -3,7 +3,7 @@ Installation from yum repository
 
 Fedora `12-15` - install the denix repo.
 
-Fedora `16` - install the denix-x repo.
+Fedora `16,17` - install the denix-x repo.
 
 You can install denix-respin-tools using the yum program (or it's GUI, Package Manager). Make sure you enabled the DeniX repository and type the following as root:
 
