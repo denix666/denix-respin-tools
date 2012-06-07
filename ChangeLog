@@ -1,3 +1,4 @@
+12.06.2012 - Fixed ks bug
 31.05.2012 - Added support for Fedora 17 (still not working - ks bug)
 18.04.2012 - Work on experemental support for Fedora 17 build
 17.04.2012 - Added support for Fedora 17 build (experemental and only i386 arch)

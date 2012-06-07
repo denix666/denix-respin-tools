@@ -144,7 +144,7 @@ case ${dest_ver} in
 		${mirror}/isolinux/memtest
 		${mirror}/.discinfo
 		${mirror}/images/install.img"
-	cd_label="DeniX-${dest_ver}-${system_arch}"
+	cd_label="DeniX-OS"
 	;;
     15|16)
 	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
@@ -152,16 +152,16 @@ case ${dest_ver} in
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
 		${mirror}/.discinfo"
-	cd_label="DeniX-OS-${dest_ver}-${system_arch}"
+	cd_label="DeniX-OS"
 	;;
     17)
-	mirror="http://ftp.halifax.rwth-aachen.de/fedora/linux/releases/17/Fedora/i386/os"
+	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
 		${mirror}/LiveOS/squashfs.img
 		${mirror}/.discinfo"
-	cd_label="DeniX"
+	cd_label="DeniX-OS"
 	;;
     *)
 	echo "Unsupported version!"
@@ -189,7 +189,7 @@ pungi -c /usr/share/denix-respin-tools/kickstart.d/dx${dest_ver}-${system_arch}.
     --ver ${dest_ver} \
     --cachedir=${cache_dir}/pungi \
     --destdir=${dest_dir} \
-    --name "DeniX" \
+    --name "DeniX-OS" \
     --nosource \
     --nodebuginfo \
     -G -C
@@ -235,6 +235,7 @@ case ${dest_ver} in
 	cp ${cache_dir}/squashfs.img ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
 	;;
 esac
+
 
 # Create directory for ISO
 ##########################
