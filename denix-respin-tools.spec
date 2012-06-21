@@ -1,5 +1,5 @@
 Name:		denix-respin-tools
-Version:	17.0
+Version:	17.1
 Release:	1%{?dist}
 Summary:	Respin scripts by -=DeN=-
 Group:		Scripts
