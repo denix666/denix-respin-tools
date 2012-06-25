@@ -50,7 +50,7 @@ Usage
 
 At the moment supported Fedora versions: `14,15,16,17`
 
-Review and edit the kickstart files in `/usr/share/denix-respin-tools/kicjstart.d`
+Review and edit the kickstart files in `/usr/share/denix-respin-tools/kickstart.d`
 
 To build the same of running version respin execute:
 ```vim
