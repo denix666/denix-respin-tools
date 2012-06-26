@@ -3,6 +3,7 @@ denix-respin-tools
 
 denix-respin-tools - is a set of the scripts to make respin of the original Fedora installation DVD. This package contains the kickstart files and script to make own desktop/server respin.
 
+
 Installation
 ============
 
@@ -44,6 +45,7 @@ $git clone https://github.com/denix666/denix-respin-tools.git
 $cd denix-respin-tools
 $./build_denix-respin-tools.sh
 ```
+
 
 Usage
 =====
