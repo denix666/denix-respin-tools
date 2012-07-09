@@ -1,3 +1,4 @@
+09.07.2012 - Added rc.local compatibility
 09.07.2012 - Added tap_to_ckick configuration to kickstarts of F17
 03.07.2012 - Added packages mcrypt, inkscape to ks of F17
 28.06.2012 - Added denix-icons package and pkcs11-engine
