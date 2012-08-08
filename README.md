@@ -12,7 +12,7 @@ Installation
 Fedora `16,17` - install the denix-x repo:
 
 ```vim
-#rpm -ivh http://fedora.os.vc/yum/base/x1/i386/denix-repo-1.1-2.x1.noarch.rpm
+#rpm -ivh http://fedora.os.vc/yum/base/x1/i386/denix-x-repo-1.0-3.x1.noarch.rpm
 ```
 and then install the package as regular:
 
