@@ -193,14 +193,18 @@ pungi -c /usr/share/denix-respin-tools/kickstart.d/dx${dest_ver}-${system_arch}.
     --nosource \
     --nodebuginfo \
     -G -C
-$color_Off
 
-if [ $? -gt 1 ]; then
+if [ $? -gt 0 ]; then
     $color_BRed
+    echo
     echo "Error downloading packages from repositories!"
+    echo "Please check your internet connection and try again!"
+    echo "Exiting..."
+    echo
     $color_Off
     exit 1
 fi
+$color_Off
 
 # Create isolinux directory
 ###########################
