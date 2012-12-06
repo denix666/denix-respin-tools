@@ -9,7 +9,7 @@ Installation
 
 **From yum repository:**
 
-Fedora `16,17` - install the denix-x repo:
+Fedora `16,17,18` - install the denix-x repo:
 
 ```vim
 #rpm -ivh http://fedora.os.vc/yum/base/x1/i386/denix-x-repo-1.0-3.x1.noarch.rpm
@@ -50,7 +50,7 @@ $./build_denix-respin-tools.sh
 Usage
 =====
 
-At the moment supported Fedora versions: `14,15,16,17`
+At the moment supported Fedora versions: `14,15,16,17,18`
 
 Review and edit the kickstart files in `/usr/share/denix-respin-tools/kickstart.d`
 
