@@ -1,4 +1,4 @@
-11.12.2012 - Added beta support for F18 respin
+12.12.2012 - Added beta support for F18 respin
 19.11.2012 - Added ntp, sysstat, and to 64 bit version: compat-libstdc++*
 13.11.2012 - Added new properties of mintMenu to kickstarts
 11.11.2012 - Changed default plymouth theme in kickstart file and console color changed to green
