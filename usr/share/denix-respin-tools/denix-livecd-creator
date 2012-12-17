@@ -1,0 +1,88 @@
+#! /bin/bash
+#
+# Copyright © 2001 - 2012 Denis Salmanovich denis.salmanovich@gmail.com
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+
+[ -f /etc/denix-colors ] && . /etc/denix-colors
+
+# Check if script runs under root
+#################################
+if ! [ "$(whoami)" = "root" ]; then
+    echo "You have to run me with root user priveleges!"
+    exit 1
+fi
+
+# Check if we have all needed packages in system
+################################################
+pk="livecd-tools"
+for i in $pk; do
+    if ! rpm -q $i >/dev/null 2>&1; then
+	required_packages="$required_packages $i"
+    fi
+done
+
+if ! [ "$required_packages" = "" ]; then
+    echo "Some packages not found on your system. Trying to download and install..."
+    if ! yum -y install $required_packages; then
+	echo "Download failed! Check internet connection and try again!"
+	exit 1
+    else
+	echo "Installation success!"
+    fi
+fi
+
+# Check SELinux configuration
+#############################
+if [ -f /etc/selinux/config ]; then
+    . /etc/selinux/config
+    if ! [ "${SELINUX}" = "disabled" ]; then
+	$color_Red
+	echo "WARNING!"
+	echo "~~~~~~~~"
+	echo -n "The SELINUX has been set to ${SELINUX}. Do you want to disable it? (Y/n)?"; read USERINPUT
+	$color_Off
+	if [ "${USERINPUT}" = "" -o "${USERINPUT}" = "y" -o "${USERINPUT}" = "Y" ]; then
+	    sed -i 's/^SELINUX=.*$/SELINUX=disabled/g' /etc/selinux/config
+	    setenforce 0
+	else
+	    $color_BRed
+	    echo "You have to disable SELINUX!"
+	    echo "Exiting."
+	    $color_Off
+	    exit 1
+	fi
+    fi
+    . /etc/selinux/config
+    if [ "${SELINUX}" = "disabled" ]; then
+	chkconfig restorecond off >/dev/null 2>&1
+	chkconfig setroubleshoot off >/dev/null 2>&1
+    fi
+fi
+
+# Check the system version and arch
+###################################
+[ -f /etc/fedora-release ] && system_ver=`cat /etc/fedora-release | head -1 | awk '{print $3}'` && system_arch=$(uname -i)
+
+# Set system vars
+#################
+cache_dir="/var/cache/denix-livecd/${system_ver}"
+
+# Create cache directory
+########################
+install -d ${cache_dir}
+
+livecd-creator \
+    --cache=${cache_dir} \
+    --config=/usr/share/denix-respin-tools/kickstart.d/dx${system_ver}_live-${system_arch}.cfg \
+    -v \
+    --fslabel=DeniX-OS

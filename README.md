@@ -1,8 +1,10 @@
 denix-respin-tools
 ==================
 
-denix-respin-tools - is a set of the scripts to make respin of the original Fedora installation DVD. This package contains the kickstart files and script to make own desktop/server respin.
+This package contains the kickstart files and scripts to make own desktop/server respin, live boot CDROM image.
 
+denix-respin-creator - is a script to make respin of the original Fedora installation DVD.
+denix-livecd-creator - is a script to make DeniX-OS Live boot CDROM image.
 
 Installation
 ============

@@ -1,0 +1,3 @@
+USER=root
+PROGRAM=/usr/share/denix-respin-tools/denix-livecd-creator
+SESSION=true

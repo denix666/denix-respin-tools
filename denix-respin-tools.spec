@@ -1,5 +1,5 @@
 Name:		denix-respin-tools
-Version:	18.0
+Version:	18.1
 Release:	3%{?dist}
 Summary:	Respin scripts by -=DeN=-
 Group:		Scripts
@@ -34,3 +34,7 @@ rm -rf %{_builddir}/%{name}
 %attr(0755,root,root) /usr/bin/denix-respin-creator
 %attr(0644,root,root) /etc/pam.d/denix-respin-creator
 %attr(0644,root,root) /etc/security/console.apps/denix-respin-creator
+%attr(0755,root,root) /usr/share/denix-respin-tools/denix-livecd-creator
+%attr(0755,root,root) /usr/bin/denix-livecd-creator
+%attr(0644,root,root) /etc/pam.d/denix-livecd-creator
+%attr(0644,root,root) /etc/security/console.apps/denix-livecd-creator
