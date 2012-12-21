@@ -164,7 +164,8 @@ case ${dest_ver} in
 	cd_label="DeniX-OS"
 	;;
     18)
-	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/test/18-Beta/Fedora/${system_arch}/os"
+	#mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/test/18-Beta/Fedora/${system_arch}/os"
+	mirror="http://mir01.syntis.net/fedora/linux/development/18/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
