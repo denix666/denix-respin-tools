@@ -15,6 +15,16 @@
 
 [ -f /etc/denix-colors ] && . /etc/denix-colors
 
+show_help() {
+    $color_Yellow
+    echo "Usage: $0 [arguments]"
+    echo "	--help				- show help"
+    echo "	--clear_cache			- Clear the cache directory before creating Live ISO"
+    echo
+    echo "report bugs to <denis.salmanovich@gmail.com>"
+    $color_Off
+}
+
 # Check if script runs under root
 #################################
 if ! [ "$(whoami)" = "root" ]; then
@@ -73,16 +83,50 @@ fi
 ###################################
 [ -f /etc/fedora-release ] && system_ver=`cat /etc/fedora-release | head -1 | awk '{print $3}'` && system_arch=$(uname -i)
 
+# Get the user arguments
+########################
+for i in $*; do
+    case $i in
+    	-h|--help)
+    	    show_help
+    	    exit 0
+    	    ;;
+	--clear_cache)
+    	    clear_cache=yes
+	    ;;
+    esac
+done
+
+
 # Set system vars
 #################
 cache_dir="/var/cache/denix-livecd/${system_ver}"
+dest_dir="/srv/denix-live-${system_ver}"
+
+# Clear the cache directory if needed
+#####################################
+if [ "${clear_cache}" = "yes" ]; then
+	rm -rf ${cache_dir}
+fi
 
 # Create cache directory
 ########################
 install -d ${cache_dir}
+rm -rf ${dest_dir} >/dev/null 2>&1
+install -d ${dest_dir}
 
+pushd ${dest_dir} >/dev/null 2>&1
 livecd-creator \
     --cache=${cache_dir} \
     --config=/usr/share/denix-respin-tools/kickstart.d/dx${system_ver}_live-${system_arch}.cfg \
     -v \
     --fslabel=DeniX-OS
+popd >/dev/null 2>&1
+mv ${dest_dir}/DeniX-OS.iso DeniX-LiveOS.iso
+
+# Print success message :-)
+###########################
+echo
+$color_BGreen
+echo "Live ISO image successfully created: ${dest_dir}/DeniX-LiveOS.iso"
+$color_Off

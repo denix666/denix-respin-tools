@@ -1,11 +1,11 @@
 Name:		denix-respin-tools
 Version:	18.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Respin scripts by -=DeN=-
 Group:		Scripts
 License:	GPL
 URL:		http://os.vc
-Requires:	pungi wget usermode denix-colors
+Requires:	pungi wget usermode denix-colors livecd-tools
 Source0:        %{name}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch:      noarch

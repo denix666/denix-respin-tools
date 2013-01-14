@@ -52,7 +52,7 @@ $./build_denix-respin-tools.sh
 Usage
 =====
 
-At the moment supported Fedora versions: `14,15,16,17,18`
+At the moment supported Fedora versions for respin: `14,15,16,17,18` and to build live CD: `18`
 
 Review and edit the kickstart files in `/usr/share/denix-respin-tools/kickstart.d`
 
