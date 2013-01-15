@@ -18,10 +18,10 @@
 show_help() {
     $color_Yellow
     echo "Usage: $0 [arguments]"
-    echo "	--help				- show help"
-    echo "	--os_tree_only			- Do not create ISO file, only the os tree"
-    echo "	--clear_cache			- Clear the cache directory before creating new respin"
-    echo "	--dest_ver=<12/13/14/15/16/17>	- Specify the version to build (experemental)"
+    echo "	--help					- show help"
+    echo "	--os_tree_only				- Do not create ISO file, only the os tree"
+    echo "	--clear_cache				- Clear the cache directory before creating new respin"
+    echo "	--dest_ver=<12/13/14/15/16/17/18>	- Specify the version to build (experemental)"
     echo
     echo "report bugs to <denis.salmanovich@gmail.com>"
     $color_Off
@@ -154,18 +154,8 @@ case ${dest_ver} in
 		${mirror}/.discinfo"
 	cd_label="DeniX-OS"
 	;;
-    17)
+    17|18)
 	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
-	links="${mirror}/isolinux/vmlinuz
-		${mirror}/isolinux/initrd.img
-		${mirror}/isolinux/memtest
-		${mirror}/LiveOS/squashfs.img
-		${mirror}/.discinfo"
-	cd_label="DeniX-OS"
-	;;
-    18)
-	#mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/test/18-Beta/Fedora/${system_arch}/os"
-	mirror="http://mir01.syntis.net/fedora/linux/development/18/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
