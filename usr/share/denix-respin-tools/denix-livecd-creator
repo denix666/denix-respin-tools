@@ -121,12 +121,12 @@ livecd-creator \
     --config=/usr/share/denix-respin-tools/kickstart.d/dx${system_ver}_live-${system_arch}.cfg \
     -v \
     --fslabel=DeniX-OS
+mv ${dest_dir}/DeniX-OS.iso denix-live-${system_ver}-${system_arch}.iso
 popd >/dev/null 2>&1
-mv ${dest_dir}/DeniX-OS.iso DeniX-LiveOS.iso
 
 # Print success message :-)
 ###########################
 echo
 $color_BGreen
-echo "Live ISO image successfully created: ${dest_dir}/DeniX-LiveOS.iso"
+echo "Live ISO image successfully created: ${dest_dir}/denix-live-${system_ver}-${system_arch}.iso"
 $color_Off
