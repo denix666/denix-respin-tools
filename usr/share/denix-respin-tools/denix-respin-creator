@@ -155,7 +155,7 @@ case ${dest_ver} in
 	cd_label="DeniX-OS"
 	;;
     17|18)
-	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
+	mirror="http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
