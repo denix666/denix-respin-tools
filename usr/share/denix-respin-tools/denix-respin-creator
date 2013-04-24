@@ -163,6 +163,15 @@ case ${dest_ver} in
 		${mirror}/.discinfo"
 	cd_label="DeniX-OS"
 	;;
+    19)
+	mirror="http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/test/19-Alpha/Fedora/${system_arch}/os"
+	links="${mirror}/isolinux/vmlinuz
+		${mirror}/isolinux/initrd.img
+		${mirror}/isolinux/memtest
+		${mirror}/LiveOS/squashfs.img
+		${mirror}/.discinfo"
+	cd_label="DeniX-OS"
+	;;
     *)
 	echo "Unsupported version!"
 	exit 0
@@ -234,7 +243,7 @@ case ${dest_ver} in
 	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	cp ${cache_dir}/install.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	;;
-    17|18)
+    17|18|19)
 	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
 	cp ${cache_dir}/squashfs.img ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
 	;;
