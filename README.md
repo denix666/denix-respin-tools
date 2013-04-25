@@ -11,10 +11,10 @@ Installation
 
 **From yum repository:**
 
-Fedora `16,17,18` - install the denix-x repo:
+Fedora `19` - install the denix repo:
 
 ```vim
-#rpm -ivh http://fedora.os.vc/yum/base/x1/i386/denix-x-repo-1.0-3.x1.noarch.rpm
+#rpm -ivh http://fedora.os.vc/yum/base/19/i386/denix-x-repo-1.0-4.fc19.noarch.rpm
 ```
 and then install the package as regular:
 
@@ -27,7 +27,7 @@ and then install the package as regular:
 
 If you want to install this package manualy, download the latest version from one of my mirrors:
 
-http://mirror.os.vc/denix-repo/yum/base/x1
+http://mirror.os.vc/denix-repo/yum/base/19
 
 and install it by using this command as root:
 
@@ -52,7 +52,7 @@ $./build_denix-respin-tools.sh
 Usage
 =====
 
-At the moment supported Fedora versions for respin: `14,15,16,17,18` and to build live CD: `18`
+At the moment supported Fedora versions for respin: `14,15,16,17,18` and to build live CD: `18` + Support for `Alpha-19`
 
 Review and edit the kickstart files in `/usr/share/denix-respin-tools/kickstart.d`
 
