@@ -21,7 +21,7 @@ show_help() {
     echo "	--help					- show help"
     echo "	--os_tree_only				- Do not create ISO file, only the os tree"
     echo "	--clear_cache				- Clear the cache directory before creating new respin"
-    echo "	--dest_ver=<12/13/14/15/16/17/18>	- Specify the version to build (experemental)"
+    echo "	--dest_ver=<13/14/15/16/17/18/19>	- Specify the version to build (experemental)"
     echo
     echo "report bugs to <denis.salmanovich@gmail.com>"
     $color_Off
@@ -137,7 +137,7 @@ install -d ${cache_dir}
 # Download files for compose
 ############################
 case ${dest_ver} in
-    13|14|12)
+    13|14)
 	mirror="http://ftp.heanet.ie/pub/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
@@ -164,7 +164,7 @@ case ${dest_ver} in
 	cd_label="DeniX-OS"
 	;;
     19)
-	mirror="http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/test/19-Alpha/Fedora/${system_arch}/os"
+	mirror="http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/test/19-Beta/Fedora/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
@@ -239,7 +239,7 @@ cp ${cache_dir}/memtest ${dest_dir}/${dest_ver}/${system_arch}/os/isolinux
 cp ${cache_dir}/.discinfo ${dest_dir}/${dest_ver}/${system_arch}/os
 
 case ${dest_ver} in
-    12|13|14)
+    13|14)
 	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	cp ${cache_dir}/install.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	;;
