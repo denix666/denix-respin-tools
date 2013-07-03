@@ -154,17 +154,8 @@ case ${dest_ver} in
 		${mirror}/.discinfo"
 	cd_label="DeniX-OS"
 	;;
-    17|18)
-	mirror="http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
-	links="${mirror}/isolinux/vmlinuz
-		${mirror}/isolinux/initrd.img
-		${mirror}/isolinux/memtest
-		${mirror}/LiveOS/squashfs.img
-		${mirror}/.discinfo"
-	cd_label="DeniX-OS"
-	;;
-    19)
-	mirror="http://mirror.switch.ch/ftp/mirror/fedora/linux/releases/test/19-Beta/Fedora/${system_arch}/os"
+    17|18|19)
+	mirror="http://fedora.c3sl.ufpr.br/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
 	links="${mirror}/isolinux/vmlinuz
 		${mirror}/isolinux/initrd.img
 		${mirror}/isolinux/memtest
