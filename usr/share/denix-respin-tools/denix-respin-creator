@@ -156,12 +156,25 @@ case ${dest_ver} in
 	;;
     17|18|19)
 	mirror="http://fedora.c3sl.ufpr.br/linux/releases/${dest_ver}/Fedora/${system_arch}/os"
-	links="${mirror}/isolinux/vmlinuz
-		${mirror}/isolinux/initrd.img
-		${mirror}/isolinux/memtest
-		${mirror}/LiveOS/squashfs.img
-		${mirror}/.discinfo"
 	cd_label="DeniX-OS"
+	case ${system_arch} in
+	    i386)
+		links="${mirror}/isolinux/vmlinuz
+		    ${mirror}/isolinux/initrd.img
+		    ${mirror}/isolinux/memtest
+		    ${mirror}/LiveOS/squashfs.img
+		    ${mirror}/.discinfo"
+		;;
+	    x86_64)
+		links="${mirror}/isolinux/vmlinuz
+		    ${mirror}/isolinux/initrd.img
+		    ${mirror}/isolinux/memtest
+		    ${mirror}/LiveOS/squashfs.img
+		    ${mirror}/.discinfo
+		    ${mirror}/images/efiboot.img
+		    ${mirror}/images/macboot.img"
+		;;
+	esac
 	;;
     *)
 	echo "Unsupported version!"
@@ -237,6 +250,11 @@ case ${dest_ver} in
     17|18|19)
 	install -d ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
 	cp ${cache_dir}/squashfs.img ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
+	if [ "${system_arch}" = "x86_64" ]; then
+	    install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	    cp ${cache_dir}/efiboot.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	    cp ${cache_dir}/macboot.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	fi
 	;;
 esac
 
