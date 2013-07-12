@@ -172,7 +172,11 @@ case ${dest_ver} in
 		    ${mirror}/LiveOS/squashfs.img
 		    ${mirror}/.discinfo
 		    ${mirror}/images/efiboot.img
-		    ${mirror}/images/macboot.img"
+		    ${mirror}/images/macboot.img
+		    ${mirror}/EFI/BOOT/BOOTX64.efi
+		    ${mirror}/EFI/BOOT/grub.cfg
+		    ${mirror}/EFI/BOOT/grubx64.efi
+		    ${mirror}/EFI/BOOT/fonts/unicode.pf2"
 		;;
 	esac
 	;;
@@ -252,8 +256,12 @@ case ${dest_ver} in
 	cp ${cache_dir}/squashfs.img ${dest_dir}/${dest_ver}/${system_arch}/os/LiveOS
 	if [ "${system_arch}" = "x86_64" ]; then
 	    install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	    install -d ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT/fonts
 	    cp ${cache_dir}/efiboot.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
-	    cp ${cache_dir}/macboot.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	    cp ${cache_dir}/BOOTX64.efi ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT
+	    cp ${cache_dir}/grub.cfg ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT
+	    cp ${cache_dir}/grubx64.efi ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT
+	    cp ${cache_dir}/unicode.pf2 ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT/fonts
 	fi
 	;;
 esac
