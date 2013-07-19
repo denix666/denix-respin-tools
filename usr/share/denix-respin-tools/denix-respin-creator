@@ -258,6 +258,7 @@ case ${dest_ver} in
 	    install -d ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	    install -d ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT/fonts
 	    cp ${cache_dir}/efiboot.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
+	    cp ${cache_dir}/macboot.img ${dest_dir}/${dest_ver}/${system_arch}/os/images
 	    cp ${cache_dir}/BOOTX64.efi ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT
 	    cp ${cache_dir}/grub.cfg ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT
 	    cp ${cache_dir}/grubx64.efi ${dest_dir}/${dest_ver}/${system_arch}/os/EFI/BOOT
