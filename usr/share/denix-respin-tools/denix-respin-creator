@@ -21,7 +21,7 @@ show_help() {
     echo "	--help					- show help"
     echo "	--os_tree_only				- Do not create ISO file, only the os tree"
     echo "	--clear_cache				- Clear the cache directory before creating new respin"
-    echo "	--dest_ver=<13/14/15/16/17/18/19>	- Specify the version to build (experemental)"
+    echo "	--dest_ver=<13/14/15/16/17/18/19/20>	- Specify the version to build (experemental)"
     echo
     echo "report bugs to <denis.salmanovich@gmail.com>"
     $color_Off
